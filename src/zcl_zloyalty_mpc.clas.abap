@@ -6,7 +6,10 @@ class ZCL_ZLOYALTY_MPC definition
 public section.
 
   types:
-     TS_LOYALTY type ZCRM_LOYALTY .
+  begin of TS_LOYALTY,
+     CARDNO type C length 25,
+     TYPE type C length 15,
+  end of TS_LOYALTY .
   types:
 TT_LOYALTY type standard table of TS_LOYALTY .
   types:
@@ -105,6 +108,7 @@ lo_property->/iwbep/if_mgw_odata_annotatabl~create_annotation( 'sap' )->add(
         iv_key      = 'unicode'
         iv_value    = 'false' ).
 lo_property = lo_entity_type->create_property( iv_property_name = 'Type' iv_abap_fieldname = 'TYPE' ). "#EC NOTEXT
+lo_property->set_label_from_text_element( iv_text_element_symbol = '002' iv_text_element_container = gc_incl_name ).  "#EC NOTEXT
 lo_property->set_type_edm_string( ).
 lo_property->set_maxlength( iv_max_length = 15 ). "#EC NOTEXT
 lo_property->set_creatable( abap_false ).
@@ -117,8 +121,7 @@ lo_property->/iwbep/if_mgw_odata_annotatabl~create_annotation( 'sap' )->add(
         iv_key      = 'unicode'
         iv_value    = 'false' ).
 
-lo_entity_type->bind_structure( iv_structure_name   = 'ZCRM_LOYALTY'
-                                iv_bind_conversions = 'X' ). "#EC NOTEXT
+lo_entity_type->bind_structure( iv_structure_name  = 'ZCL_ZLOYALTY_MPC=>TS_LOYALTY' ). "#EC NOTEXT
 
 
 ***********************************************************************************************************************************
@@ -148,7 +151,7 @@ lo_entity_set->set_filter_required( abap_false ).
 *&---------------------------------------------------------------------*
 
 
-  CONSTANTS: lc_gen_date_time TYPE timestamp VALUE '20220304002113'.                  "#EC NOTEXT
+  CONSTANTS: lc_gen_date_time TYPE timestamp VALUE '20220304002925'.                  "#EC NOTEXT
   rv_last_modified = super->get_last_modified( ).
   IF rv_last_modified LT lc_gen_date_time.
     rv_last_modified = lc_gen_date_time.
@@ -176,6 +179,13 @@ ls_text_element-artifact_type          = 'PROP'.                                
 ls_text_element-parent_artifact_name   = 'Loyalty'.                            "#EC NOTEXT
 ls_text_element-parent_artifact_type   = 'ETYP'.                                       "#EC NOTEXT
 ls_text_element-text_symbol            = '001'.              "#EC NOTEXT
+APPEND ls_text_element TO rt_text_elements.
+clear ls_text_element.
+ls_text_element-artifact_name          = 'Type'.                 "#EC NOTEXT
+ls_text_element-artifact_type          = 'PROP'.                                       "#EC NOTEXT
+ls_text_element-parent_artifact_name   = 'Loyalty'.                            "#EC NOTEXT
+ls_text_element-parent_artifact_type   = 'ETYP'.                                       "#EC NOTEXT
+ls_text_element-text_symbol            = '002'.              "#EC NOTEXT
 APPEND ls_text_element TO rt_text_elements.
   endmethod.
 ENDCLASS.
