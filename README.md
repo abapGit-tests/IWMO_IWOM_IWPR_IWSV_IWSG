@@ -1,3 +1,3 @@
-# IWMO_IWOM_IWPR_IWSV_IWSG
+# IWSV_IWSG
 
-Gateway Objects
+SAP Gateway Business Suite Enablement - Service & Service Group
